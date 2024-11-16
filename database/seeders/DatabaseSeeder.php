@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ChampionSeeder::class,
+            ChampionSpellSeeder::class,
         ]);
     }
 }
