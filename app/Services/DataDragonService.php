@@ -25,12 +25,22 @@ class DataDragonService
         $this->version = $data[0];
     }
 
-    public function updateChampions()
+    public function getChampionData(): array
     {
         $championsUrl = sprintf('%s/cdn/%s/data/en_US/champion.json', $this->url, $this->version);
-
         $data = json_decode(file_get_contents($championsUrl), true);
-        $championsData = $data['data'];
+
+        return $data['data'];
+    }
+
+    public function getChampionCount(): int
+    {
+        return count($this->getChampionData());
+    }
+
+    public function updateChampions(callable $progressCallback = null)
+    {
+        $championsData = $this->getChampionData();
 
         foreach ($championsData as $innerName => $champData) {
             Champion::updateOrCreate(
@@ -43,10 +53,14 @@ class DataDragonService
                     'patch_version' => $champData['version'],
                 ]
             );
+
+            if ($progressCallback) {
+                $progressCallback();
+            }
         }
     }
 
-    public function updateChampionSpells()
+    public function updateChampionSpells(callable $progressCallback = null)
     {
         $championNames = Champion::get('inner_name')->pluck('inner_name')->toArray();
 
@@ -56,6 +70,11 @@ class DataDragonService
             $data = $champData['data'][$name];
 
             $this->updatePassive($name, $data['passive']);
+
+            // Call the progress callback, if provided
+            if ($progressCallback) {
+                $progressCallback();
+            }
         }
     }
 

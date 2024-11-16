@@ -2,12 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Models\Champion;
 use App\Models\ChampionSpell;
 use App\Services\DataDragonService;
+use App\Traits\TracksProgress;
 use Illuminate\Database\Seeder;
 
 class ChampionSpellSeeder extends Seeder
 {
+    use TracksProgress;
+
     private DataDragonService $dataDragonService;
 
     public function __construct(DataDragonService $dataDragonService)
@@ -22,6 +26,13 @@ class ChampionSpellSeeder extends Seeder
     {
         ChampionSpell::query()->delete();
 
-        $this->dataDragonService->updateChampionSpells();
+        $championCount = Champion::count();
+        $progressBar = $this->createProgressBar($championCount);
+
+        $this->dataDragonService->updateChampionSpells(function () use ($progressBar) {
+            $progressBar->advance();
+        });
+
+        $this->finishProgressBar($progressBar);
     }
 }
