@@ -12,14 +12,9 @@ defineProps({
 <template>
     <AppLayout>
         <div class="flex items-center gap-x-6">
-            <div
-                class="relative size-24 animate-pulse overflow-hidden rounded-2xl bg-zinc-500"
-            >
-                <img
-                    :src="champion.square_image"
-                    :alt="champion.name"
-                    class="absolute left-1/2 top-1/2 block min-h-32 min-w-32 -translate-x-1/2 -translate-y-1/2"
-                />
+            <div class="relative size-24 overflow-hidden rounded-2xl bg-zinc-500">
+                <img :src="champion.square_image" :alt="champion.name"
+                    class="absolute left-1/2 top-1/2 block min-h-32 min-w-32 -translate-x-1/2 -translate-y-1/2" />
             </div>
 
             <div>
