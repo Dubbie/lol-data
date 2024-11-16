@@ -1,4 +1,5 @@
 <script setup>
+import PassiveIcon from '@/Components/PassiveIcon.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 defineProps({
@@ -27,7 +28,9 @@ defineProps({
                     </p>
                 </div>
 
-                <p class="mt-4">Spells go here.</p>
+                <div class="flex gap-x-3 mt-3">
+                    <PassiveIcon :passive="champion.passive" />
+                </div>
             </div>
         </div>
 

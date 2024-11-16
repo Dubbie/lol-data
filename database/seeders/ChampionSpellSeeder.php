@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Champion;
+use App\Models\ChampionSpell;
 use App\Services\DataDragonService;
 use Illuminate\Database\Seeder;
 
-class ChampionSeeder extends Seeder
+class ChampionSpellSeeder extends Seeder
 {
     private DataDragonService $dataDragonService;
 
@@ -20,9 +20,8 @@ class ChampionSeeder extends Seeder
      */
     public function run(): void
     {
-        Champion::query()->delete();
+        ChampionSpell::query()->delete();
 
-        // Load the champions
-        $this->dataDragonService->updateChampions();
+        $this->dataDragonService->updateChampionSpells();
     }
 }
