@@ -20,4 +20,6 @@ export default {
     },
 
     plugins: [forms],
+
+    safelist: ['text-yellow-300', 'text-blue-400'],
 };

@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Champion;
 use App\Models\ChampionPassive;
+use App\Models\ChampionSpell;
+use Illuminate\Support\Collection;
 
 class DataDragonService
 {
@@ -70,6 +72,7 @@ class DataDragonService
             $data = $champData['data'][$name];
 
             $this->updatePassive($name, $data['passive']);
+            $this->updateSpells($name, $data['spells']);
 
             // Call the progress callback, if provided
             if ($progressCallback) {
@@ -89,5 +92,29 @@ class DataDragonService
         ]);
 
         return $passive;
+    }
+
+    private function updateSpells(string $name, array $spellsData): Collection
+    {
+        $spells = new Collection();
+
+        foreach ($spellsData as $index => $spellData) {
+            $spell = ChampionSpell::updateOrCreate([
+                'id' => $spellData['id'],
+            ], [
+                'name' => $spellData['name'],
+                'description' => $spellData['description'],
+                'tooltip' => $spellData['tooltip'],
+                'effect_burn' => $spellData['effectBurn'],
+                'cooldown' => $spellData['cooldown'],
+                'champion_name' => $name,
+                'image' => sprintf('%s/cdn/%s/img/spell/%s', $this->url, $this->version, $spellData['image']['full']),
+                'priority' => $index,
+            ]);
+
+            $spells->push($spell);
+        }
+
+        return $spells;
     }
 }

@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('champion_spells', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('name');
             $table->string('champion_name');
-            $table->string('description');
-            $table->string('tooltip');
+            $table->text('description');
+            $table->text('tooltip');
             $table->string('image');
+            $table->json('effect_burn');
+            $table->json('cooldown');
+            $table->unsignedSmallInteger('priority');
             $table->timestamps();
 
             $table->foreign('champion_name')->references('inner_name')->on('champions')->cascadeOnDelete();

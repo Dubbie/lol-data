@@ -21,10 +21,15 @@ class Champion extends Model
         'patch_version'
     ];
 
-    protected $with = ['passive'];
+    protected $with = ['passive', 'spells'];
 
     public function passive()
     {
         return $this->hasOne(ChampionPassive::class, 'champion_name', 'inner_name');
+    }
+
+    public function spells()
+    {
+        return $this->hasMany(ChampionSpell::class, 'champion_name', 'inner_name')->orderBy('priority');
     }
 }
