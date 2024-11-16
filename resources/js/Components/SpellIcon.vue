@@ -11,26 +11,11 @@ const props = defineProps({
 
 const { translateTooltip } = useTooltipTranslator();
 
-const buttonText = computed(() => {
-    switch (props.spell.priority) {
-        case 0:
-            return 'Q';
-        case 1:
-            return 'W';
-        case 2:
-            return 'E';
-        case 3:
-            return 'R';
-        default:
-            return '?';
-    }
-});
-
 const cooldownText = computed(() => {
     let same = true;
     let lastCooldown = null;
 
-    for (const cd of props.spell.cooldown) {
+    for (const cd of props.spell.cooldown_coefficients) {
         if (!lastCooldown) {
             lastCooldown = cd;
         }
@@ -45,7 +30,7 @@ const cooldownText = computed(() => {
         return `${lastCooldown}`;
     }
 
-    return props.spell.cooldown.join(' / ');
+    return props.spell.cooldown_coefficients.join(' / ');
 });
 
 const translatedTooltip = ref(
@@ -71,7 +56,7 @@ const showingDescription = ref(false);
             <p
                 class="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-md bg-white px-1 text-center font-poppins text-xs/4 font-bold text-black"
             >
-                {{ buttonText }}
+                {{ spell.spell_key.toUpperCase() }}
             </p>
         </div>
 

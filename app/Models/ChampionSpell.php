@@ -11,18 +11,23 @@ class ChampionSpell extends Model
     protected $fillable = [
         'id',
         'name',
+        'spell_key',
         'champion_name',
         'description',
-        'effect_burn',
+        'effect_amounts',
+        'cooldown_coefficients',
+        'cost_coefficients',
+        'coefficients',
         'tooltip',
         'image',
         'priority',
-        'cooldown'
     ];
 
     protected $casts = [
-        'effect_burn' => 'array',
-        'cooldown' => 'array'
+        'effect_amounts' => 'array',
+        'cooldown_coefficients' => 'array',
+        'cost_coefficients' => 'array',
+        'coefficients' => 'array',
     ];
 
     public function champion()

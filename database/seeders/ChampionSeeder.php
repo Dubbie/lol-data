@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Champion;
-use App\Services\DataDragonService;
+use App\Services\DataSources\CommunityDragonSource;
 use App\Traits\TracksProgress;
 use Illuminate\Database\Seeder;
 
@@ -11,11 +11,11 @@ class ChampionSeeder extends Seeder
 {
     use TracksProgress;
 
-    private DataDragonService $dataDragonService;
+    private CommunityDragonSource $source;
 
-    public function __construct(DataDragonService $dataDragonService)
+    public function __construct(CommunityDragonSource $source)
     {
-        $this->dataDragonService = $dataDragonService;
+        $this->source = $source;
     }
 
     /**
@@ -25,11 +25,11 @@ class ChampionSeeder extends Seeder
     {
         Champion::query()->delete();
 
-        $championCount = $this->dataDragonService->getChampionCount();
+        $championCount = $this->source->getChampionCount();
         $progressBar = $this->createProgressBar($championCount);
 
         // Load the champions
-        $this->dataDragonService->updateChampions(function () use ($progressBar) {
+        $this->source->updateChampions(function () use ($progressBar) {
             $progressBar->advance();
         });
 

@@ -18,8 +18,11 @@ return new class extends Migration
             $table->text('description');
             $table->text('tooltip');
             $table->string('image');
-            $table->json('effect_burn');
-            $table->json('cooldown');
+            $table->json('effect_amounts');
+            $table->json('coefficients');
+            $table->json('cost_coefficients');
+            $table->json('cooldown_coefficients');
+            $table->string('spell_key');
             $table->unsignedSmallInteger('priority');
             $table->timestamps();
 
